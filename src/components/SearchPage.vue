@@ -132,71 +132,75 @@
       </div>
     </div>
 
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th @click="sortTable('age')" :class="{'activeSort': activeSortKey === 'age'}">
-          <span>Age</span>
-          <svg v-if="activeSortKey === 'age'" :class="{'rotate': sortOrder === -1}" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 19V5M5 12l7-7 7 7" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </th>
-        <th @click="sortTable('rate')" :class="{'activeSort': activeSortKey === 'rate'}">
-          <span>Rate</span>
-          <svg v-if="activeSortKey === 'rate'" :class="{'rotate': sortOrder === -1}" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 19V5M5 12l7-7 7 7" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </th>
-        <th @click="sortTable('tripFrom')" :class="{'activeSort': activeSortKey === 'tripFrom'}">
-          <span>Trip</span>
-          <svg v-if="activeSortKey === 'tripFrom'" :class="{'rotate': sortOrder === -1}" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 19V5M5 12l7-7 7 7" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </th>
-      <th>Pick Up</th>
-        <th>Equipment</th>
-        <th>Company</th>
-      </tr>
-      </thead>
-      <tbody v-for="(item, index) in filteredData" :key="index">
-      <tr style="cursor: pointer;" @click="item.active = !item.active">
-        <td>
-          <input type="checkbox" class="me-3">
-          {{item.age}}
-        </td>
-        <td>{{ item.rate }}</td>
-        <td class="d-flex">
-          <span class="me-4 text-primary">{{item.trip}}</span>
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="circle"></div>
-              <div class="content">
-                <span>{{item.tripFrom}}</span>
+    <table class=" custom-table table table-striped">
+      <tbody>
+      <template v-for="(item, index) in filteredData" :key="index">
+        <tr v-if="!index">
+          <th @click="sortTable('age')" :class="{'activeSort': activeSortKey === 'age'}">
+            <span>Age</span>
+            <svg v-if="activeSortKey === 'age'" :class="{'rotate': sortOrder === -1}" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 19V5M5 12l7-7 7 7" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </th>
+          <th @click="sortTable('rate')" :class="{'activeSort': activeSortKey === 'rate'}">
+            <span>Rate</span>
+            <svg v-if="activeSortKey === 'rate'" :class="{'rotate': sortOrder === -1}" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 19V5M5 12l7-7 7 7" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </th>
+          <th @click="sortTable('tripFrom')" :class="{'activeSort': activeSortKey === 'tripFrom'}">
+            <span>Trip</span>
+            <svg v-if="activeSortKey === 'tripFrom'" :class="{'rotate': sortOrder === -1}" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 19V5M5 12l7-7 7 7" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </th>
+          <th>Pick Up</th>
+          <th>Equipment</th>
+          <th>Company</th>
+        </tr>
+        <tr style="cursor: pointer;" @click="item.active = !item.active">
+          <td>
+            <input type="checkbox" class="me-3">
+            {{item.age}}
+          </td>
+          <td>{{ item.rate }}</td>
+          <td>
+            <div class="d-flex">
+              <span class="me-4 text-primary">{{item.trip}}</span>
+              <div class="timeline">
+                <div class="timeline-item">
+                  <div class="circle"></div>
+                  <div class="content">
+                    <span>{{item.tripFrom}}</span>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="circle"></div>
+                  <div class="content">
+                    <span>{{item.tripTo}}</span>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="timeline-item">
-              <div class="circle"></div>
-              <div class="content">
-                <span>{{item.tripTo}}</span>
-              </div>
+          </td>
+          <td>{{ item.pickUpFrom }} - {{ item.pickUpTo }}</td>
+          <td>
+            <span class="me-2">{{ item.equipment.charAt(0) }} </span>
+            <span>{{ item.equipment }}</span>
+          </td>
+          <td>
+            <div class="d-flex flex-column">
+              <span class="text-primary">{{ item.company.name }}</span>
+              <span class="text-primary">{{ item.company.email }}</span>
             </div>
-          </div>
-        </td>
-        <td>{{ item.pickUpFrom }} - {{ item.pickUpTo }}</td>
-        <td>
-          <span class="me-2">{{ item.equipment.charAt(0) }} </span>
-          <span>{{ item.equipment }}</span>
-        </td>
-        <td class="d-flex flex-column">
-          <span class="text-primary">{{ item.company.name }}</span>
-          <span class="text-primary">{{ item.company.email }}</span>
-        </td>
-      </tr>
-      <tr v-if="item.active">
-        <td colspan="6">
-          <InfoDetails :details="item" :dates="dates" />
-        </td>
-      </tr>
+          </td>
+        </tr>
+        <tr v-if="item.active">
+          <td colspan="6">
+            <InfoDetails :details="item" :dates="dates" />
+          </td>
+        </tr>
+      </template>
       </tbody>
     </table>
   </div>
@@ -421,7 +425,22 @@ td:not(:last-child)::after {
   display: flex;
   flex-direction: column;
 }
-
+.custom-table,
+.custom-table > thead,
+.custom-table > tbody,
+.custom-table tr
+{
+  width: 100%;
+}
+.custom-table > tbody{
+  display: table;
+}
+.custom-table tr{
+  display: table-row;
+}
+.custom-table tr td, .custom-table tr th{
+  display: table-cell;
+}
 @media (max-width: 768px) {
   .dho-input {
     width: 60px;
@@ -444,11 +463,13 @@ td:not(:last-child)::after {
 
 @media (max-width: 1300px) {
   .table {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: inline-block;
     overflow-x: auto;
     white-space: nowrap;
+  }
+}
+@media (max-width: 990px) {
+  .table {
   }
 }
 </style>
